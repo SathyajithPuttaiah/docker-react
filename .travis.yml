@@ -1,0 +1,11 @@
+sudo : required #anytime we are maming use of Docker, we need to have super user permisssion.
+services:
+  - docker
+
+before_install: #steps to run before test or deploy
+  - docker build -t sputtaiah/docker-react -f Dockerfile.dev . #remeber we used to copy paste the image id while run ning.
+                                            #Here travis will take care of everything. Just that we need to tag it.
+script : #supposed to contain all the commands used to run our test suite.
+#travis cli will be monitoring the out from all the commands being executed. if other than 0 comes, its going to assume test has fialed.
+  #- docker run sputtaiah/docker-react npm run test -- --coverage
+  - docker run -e CI=true sputtaiah/docker-react npm run test
